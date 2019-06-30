@@ -1,4 +1,5 @@
 import requests
+
 SQL_INSERT_TEMPLATE = ''' INSERT INTO gists (github_id, html_url, git_pull_url, 
                                             git_push_url, commits_url, forks_url, 
                                             public, created_at, updated_at, 
@@ -13,15 +14,10 @@ SQL_INSERT_TEMPLATE = ''' INSERT INTO gists (github_id, html_url, git_pull_url,
 def import_gists_to_database(db, username, commit=True):
     
     url = 'https://api.github.com/users/{}/gists'.format(username)
-    
-
     response = requests.get(url)
     response.raise_for_status()
-   
     list_of_gists = response.json()
-    # there are nine gists 
-    # each dictionary contains the info for that gist
-    # take the relevant info and put it into the db.
+   
     for gist in list_of_gists:
 
         params = {
@@ -35,9 +31,7 @@ def import_gists_to_database(db, username, commit=True):
             'created_at':gist['created_at'],
             'updated_at':gist['updated_at'],
             'comments':gist['comments'],
-            'comments_url':gist['comments_url']
-
-            
+            'comments_url':gist['comments_url']       
         }
         
         db.execute(SQL_INSERT_TEMPLATE, params)

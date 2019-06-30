@@ -21,8 +21,8 @@ def search_gists(db_connection, **kwargs):
         for gist in list_of_tuples:
             g = Gist(gist)
             results.append(g)
-        print(len(results))
         return results
+    
     if created_at:
         c.execute("SELECT * FROM gists WHERE datetime(created_at) = datetime(:created_at)",
                                                         {"created_at":created_at})
@@ -30,7 +30,6 @@ def search_gists(db_connection, **kwargs):
         for gist in list_of_tuples:
             g = Gist(gist)
             results.append(g)
-        print(len(results))
         return results
     
     
@@ -40,7 +39,6 @@ def search_gists(db_connection, **kwargs):
     for gist in list_of_tuples:
         g = Gist(gist)
         results.append(g)
-    print(len(results))
     return results
         
             
